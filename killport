@@ -1,0 +1,26 @@
+#!/bin/bash
+# Put this in `/usr/local/bin`
+# Be sure to `chmod +x killport`
+# Usage: killport <port>
+# Example: killport 8080
+
+# kill process using port
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    exit 1
+fi
+
+port=$1
+
+pid=$(lsof -i :$port -t)
+
+if [ -z "$pid" ]
+  then
+    echo "No process found using port $port"
+    exit 1
+fi
+
+echo "Killing process $pid using port $port"
+kill -9 $pid
